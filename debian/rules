@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+clean:
+	rm -f bg-f
+
+build:
+	for mod in *.bgmod; do
+		bashgenn "$$mod"
+	done
+
+binary:
+	mkdir -p debian/bgbase
+	mkdir -p debian/bgbase/usr/share/bashgenn/modules
+	cp -v *.bgmod debian/bgbase/usr/share/bashgenn/modules/
+	dh_gencontrol
+	dh_builddeb
+
+.PHONY: clean build binary
+.ONESHELL: build

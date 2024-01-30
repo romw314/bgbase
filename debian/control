@@ -1,0 +1,10 @@
+Source: bgbase
+Section: devel
+Priority: optional
+Maintainer: romw314
+Build-Depends: bashgenn (>= 10), debhelper (>= 9)
+
+Package: bgbase
+Architecture: all
+Recommends: bashgenn
+Description: The most basic Bashgenn library you need

@@ -1,0 +1,5 @@
+bgbase (0.0.1) stretch buster bullseye bookworm trusty xenial bionic focal jammy; urgency=medium
+
+  * First version with io and math libraries
+
+ -- romw314 Tue, 30 Jan 2024 12:42:47 +0000
