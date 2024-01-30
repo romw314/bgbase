@@ -1,0 +1,28 @@
+_OPT ireq true
+_OPT strict none
+MODULE io
+PROG_INIT
+
+CONST_SET _mod_io_true :
+CONST_WRITE _mod_io_true _mod_io_true
+
+DECLARE _mod_io_none
+
+- The `bgmsg` variable is the message
+- The `bgout` variable is the output
+EXPORT ask
+	NONL bgmsg
+	READ bgout
+ENDFUNC
+
+- The `bgfile` variable is the filename (path)
+- The `bgdata` variable contains the data
+EXPORT writefile
+	ECHO bgdata}">$VR_bgfile;"${VR__mod_io_true
+ENDFUNC
+
+- The `bgfile` variable is the filename (path)
+- The `bgout` variable is the output
+EXPORT readfullfile
+	COPY bgout _mod_io_none}$(cat "$VR_bgfile")${VR__mod_io_none
+ENDFUNC

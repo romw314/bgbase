@@ -1,0 +1,35 @@
+_OPT ireq true
+MODULE math
+PROG_INIT
+
+CONST_SET _mod_math_zero 0
+CONST_WRITE _mod_math_zero _mod_math_zero
+
+- The `add` function needs to the `bgnum1` and `bgnum2` variables to be set
+- The `bgout` variable is it's output
+- `bgnum2` can be negative, `bgnum2` cannot
+EXPORT add
+	COPY bgout bgnum1
+	RREPT bgnum2
+		SAMENUMINC bgout
+	DONE
+ENDFUNC
+
+- `bgnum1` can be negative
+- `bgnum2` must be non-negative
+EXPORT subtract
+	COPY bgout bgnum1
+	RREPT bgnum2
+		SAMENUMDEC bgout
+	DONE
+ENDFUNC
+
+- Both numbers must be non-negative
+EXPORT multiply
+	COPY bgout _mod_math_zero
+	RREPT bgnum2
+		RREPT bgnum1
+			SAMENUMINC bgout
+		DONE
+	DONE
+ENDFUNC
