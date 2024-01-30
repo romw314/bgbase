@@ -2,6 +2,10 @@
 
 The most basic Bashgenn library you need.
 
+## Installation
+
+Clone this repo and add all the `.bgmod` files to `/usr/local/share/bashgenn/modules`, or `~/.local/share/bashgenn/modules` for per-user installation. RAPR and install script coming soon.
+
 ## Docs
 
 As of now, there isn't either a documentation of Bashgenn itself or Bashgenn Base. Please refer to https://bashgenn-docs.rtfd.io for a quick tutorial.
