@@ -1,3 +1,4 @@
+_OPT strict err
 _OPT ireq true
 MODULE math
 PROG_INIT

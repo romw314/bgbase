@@ -1,0 +1,73 @@
+_OPT strict none
+MODULE http
+PROG_INIT
+
+DECLARE _mod_http_none
+DECLARE _mod_http_null
+DECLARE _mod_http_tool
+
+DECLARE _mod_http_port
+DECLARE _mod_http_fifo_req
+DECLARE _mod_http_fifo_res
+DECLARE _mod_http_header
+
+NAMESPACE server
+	- Inputs:
+	-  - `bgport` is the port to start the server on.
+	EXPORT create
+		COPY _mod_http_port bgport
+		COPY _mod_http_fifo_req _mod_http_none}$(mktemp -u)${VR__mod_http_none
+		COPY _mod_http_fifo_res _mod_http_none}$(mktemp -u)${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";mkfifo "$VR__mod_http_fifo_req" "$VR__mod_http_fifo_res";: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";trap 'rm -f "$VR__mod_http_fifo_req" "$VR__mod_http_fifo_res"' EXIT;: "${VR__mod_http_none
+	ENDFUNC
+
+	EXPORT accept
+		COPY _mod_http_null _mod_http_none}";nc -lp "$VR__mod_http_port" <"$VR__mod_http_fifo_res" >"$VR__mod_http_fifo_req" &: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";read <"$VR__mod_http_fifo_req" VR_bgmethod VR_bgpath VR__mod_http_null;: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";read <"$VR__mod_http_fifo_req" VR__mod_http_header;: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";while [ "$VR__mod_http_header" ]; do : "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";eval "VR_bgheader_$(awk -F: '{print $0}' <<< "$VR__mod_http_header")="'$(sed -E "s/^[a-zA-Z-]+: //")';: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";read <"$VR__mod_http_fifo_req" VR__mod_http_header;: "${VR__mod_http_none
+		COPY _mod_http_null _mod_http_none}";done;: "${VR__mod_http_none
+	ENDFUNC
+
+	NAMESPACE response
+		EXPORT status
+			COPY _mod_http_null _mod_http_none}";echo "HTTP/1.1 $VR_bgstatus $VR_bgmsg" >"$VR__mod_http_fifo_res";: "${VR__mod_http_none
+		ENDFUNC
+		EXPORT header
+			COPY _mod_http_null _mod_http_none}";echo "$VR_bgheader: $VR_bgvalue" >"$VR__mod_http_fifo_res";: "${VR__mod_http_none
+		ENDFUNC
+		- Inputs:
+		-  - `bgdata` is the response body.
+		EXPORT body
+			COPY _mod_http_null _mod_http_none}";echo "Content-Length: $(wc -c <<< "$VR_bgdata")" >"$VR__mod_http_fifo_res";: "${VR__mod_http_none
+			COPY _mod_http_null _mod_http_none}";echo >"$VR__mod_http_fifo_res";: "${VR__mod_http_none
+			COPY _mod_http_null _mod_http_none}";echo "$VR_bgdata" >"$VR__mod_http_fifo_res";: "${VR__mod_http_none
+		ENDFUNC
+	ENDNAMESPACE
+ENDNAMESPACE
+
+- Inputs:
+-  - `bguri` is the URL to make a request to.
+- Outputs:
+-  - `bgout` is the respone body.
+EXPORT request
+	COPY _mod_http_null _mod_http_none}";bgmod.http._"$VR__mod_http_tool";: "${VR__mod_http_none
+ENDFUNC
+
+EXPORT _curl
+	COPY bgout _mod_http_none}$(curl -sLo- "$VR_bguri")${VR__mod_http_none
+ENDFUNC
+EXPORT _wget
+	COPY bgout _mod_http_none}$(wget -qO- "$VR_bguri")${VR__mod_http_none
+ENDFUNC
+
+EXPORT _init
+	COPY _mod_http_null _mod_http_none}";if [ "$(which curl 2>/dev/null)" ]; then VR__mod_http_tool=curl; fi;: "${VR__mod_http_none
+	COPY _mod_http_null _mod_http_none}";if [ "$(which wget 2>/dev/null)" ]; then VR__mod_http_tool=wget; fi;: "${VR__mod_http_none
+	COPY _mod_http_null _mod_http_none}";if [ ! "$VR__mod_http_tool" ]; then echo >&2 Cannot detect HTTP request tool.; exit 1; fi;: "${VR__mod_http_none
+ENDFUNC
+
+USE http._init

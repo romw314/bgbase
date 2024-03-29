@@ -1,0 +1,35 @@
+_OPT ireq true
+MODULE main
+PROG_INIT
+IMPORT http
+
+CONST_SET port 11111
+CONST_SET statusok 200
+CONST_SET ok OK
+CONST_SET cname Content-Type
+CONST_SET ctype text/html
+CONST_SET html <h1>Hello!</h1>
+CONST_SET aok AOK
+CONST_COPY aok
+
+CONST_WRITE port bgport
+ECHO aok
+USE http.server.create
+ECHO aok
+
+USE http.server.accept
+ECHO aok
+
+CONST_WRITE statusok bgstatus
+CONST_WRITE ok bgmsg
+USE http.server.response.status
+ECHO aok
+CONST_WRITE cname bgheader
+CONST_WRITE ctype bgvalue
+USE http.server.response.header
+ECHO aok
+CONST_WRITE html bgdata
+USE http.server.response.send
+REPEAT 100
+	ECHO aok
+DONE
