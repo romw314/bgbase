@@ -2,6 +2,9 @@
 
 The most basic Bashgenn library you need.
 
+[![Replit](https://img.shields.io/badge/Replit-template-green?style=for-the-badge&logo=replit)](https://replit.com/@romw314/Bashgenn?v=1#main.bgn)
+[![License](https://img.shields.io/github/license/romw314/bgbase?style=for-the-badge)](https://github.com/romw314/bgbase/tree/master?tab=BSD-2-Clause-1-ov-file)
+
 ## Installation
 
 Clone this repo and add all the `.bgmod` files to `/usr/local/share/bashgenn/modules`, or `~/.local/share/bashgenn/modules` for per-user installation. RAPR and install script coming soon.
