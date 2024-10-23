@@ -5,7 +5,7 @@ PROG_INIT
 CONST_SET _mod_math_zero 0
 CONST_WRITE _mod_math_zero _mod_math_zero
 
-- The `add` function needs to the `bgnum1` and `bgnum2` variables to be set
+- The `add` function needs the `bgnum1` and `bgnum2` variables to be set
 - The `bgout` variable is it's output
 - `bgnum1` can be negative, `bgnum2` cannot
 EXPORT add
